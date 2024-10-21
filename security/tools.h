@@ -26,7 +26,7 @@ char *ReadFile(char *fn) {
 	printf("Can't open XML file!\n");
 	exit(1);
     }
-    fstat(f->_fileno,&st);
+    fstat(fileno(f), &st);
     buf=(char*)malloc(st.st_size+5);
     if (!buf) {
 	printf("Can't allocate memory!\n");
