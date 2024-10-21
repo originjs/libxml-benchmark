@@ -1,0 +1,93 @@
+Overview
+--------
+    This package provides basic benchmarks for main C/C++ multiplatform 
+    parsers. Some of Java parsers also included for comparision.
+    
+    This version supports following benchmarks:
+	Parsing: SAX & DOM
+	Validating: XML Schema
+	DOM: Creating DOM tree, Serialization
+	Security: XML Signature, XML Encryption
+	XSL Transformation
+    
+    Following XML sources supported:
+	Any well-formed XML file ( XML, XSL, XSD )
+	Automatic generation of random simple XML file
+	Automatic generation of random XML OPC-DA message sequence
+
+    Following parsers supported:
+	libxml2 + libgdome + libxslt + xmlsec
+	xerces + xalan
+	expat + sablotron + cslxml + arabica
+	RXP parser
+	Oracle XDK for C, C++, Java
+	IBM xml4c + Lotus XML (not supported)
+	Sun XML Pack + Apache XML Security
+
+
+Requirements
+------------    
+	Libxml2			( tested 2.4.30, 2.5.9, 2.5.11, 2.6.3, 2.6.5 )
+	Libxslt			( tested 1.0.24 - 1.0.33, 1.1.2 )
+	libgdome		( tested 0.7.2 - 0.7.4, 0.8.1 )
+	xmlsec + patch		( tested 0.0.12 - 0.0.15, 1.0.2, 1.1.2, 1.2.4 )
+	OpenSSL > 0.9.7
+	xerces for C		( tested 2.1.0, 2.2.0, 2.3.0, 2.4.0 )
+	xalan for C		( tested 1.4.0, 1.5.0, 1.6.0, 1.7.0 )
+	IBM XML for C		( tested 5.0.0, 5.2.0 )
+	RXP Parser		( tested 1.2.8 )
+	expat			( tested 1.95.5, 1.95.6 )
+	arabica			( tested sept02, jan04 )
+	cslxml			( tested 020103, 020107 )
+	sablotron		( tested 0.97.0, 1.0.1 )
+	Oracle XDK for C	( tested 9.0.1.0.0, 9.2.0.6.0 )
+	Oracle XDK for C++	( tested 9.0.1.0.0, 9.2.0.6.0 )
+	Oracle XDK for Java	( tested 9.2.0.4.0, 9.2.0.6.0 )
+	Sun J2SE 1.4.1 + XML Pack Summer or Java WebServices Developer Pack  (JAXP >= 1.2)
+	Apache XML Security	( tested 20020422, 1.0.0 )
+	Jakarta Log4J		( tested 1.2 )
+	
+
+Build
+-----
+    1. Install all required libraries
+    2. Check options You want in Makefile.in
+    3. Rip off all benchmarks coresponded to unavailable libraries from Makefile.in
+    4. Update library paths in Makefile.in
+    5. Select compilers in Makefile.in
+    6. make
+
+Oracle Notes
+------------
+    To have part (not all, but maximum possible) user readable error messages
+    following enviroment virables must be set
+    
+	ORA_NLS33=/usr/share/xdk/nlsdata
+	ORA_XML_MESG=/usr/share/xdk/mesg
+
+    Oracle XDK 9.0 have rather old XML Schema implementation and don't understand 
+    OPC Schema, other schemas also can be incompatible with it.
+    
+    Oracle XDK 9.2.0.6.0 have up-to-date XML Schema implementation but buggy. Can 
+    drop core on some non-valid documents. ( May be for some of valids also )
+
+Sablotron Notes
+---------------
+    All versions, I tested (0.96, 0.96.1, 0.97) failed to process long large
+    <opcgen> generated documents. Fixed in 0.98.
+
+Gnime XML Library
+-----------------
+    Gnome XML 2.6.5 library have problems with validation of xsd:QName attributes
+
+Gnome XML Security (prior to 1.2.0)
+------------------
+    Gnome XML security library prior to 1.2.0 lacks support for reading public keys from X509 
+    certificates. Because of that if you want to use xmlsec 1.1.x or earlier, you must 
+    rebuild xmlsec with coresponded patch available in 'patches/' directory. 
+    Versions 1.2.x don't need to be patched.
+
+Apache XML Security for C (from CVS tree)
+-------------------------
+    Apache XML Security for C (CVS 07.02.2004) have problems in transcoding code, resulting in
+    random segmenation faults. Please find temorary fix in 'patches/' directory.

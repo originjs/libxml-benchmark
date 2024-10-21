@@ -1,0 +1,160 @@
+     <GetStatus ClientRequestHandle="" LocaleID="$$-$$"/>
+
+     <GetStatusResponse>
+        <GetStatusResult RcvTime="&d"
+                         ReplyTime="&d"
+                         ClientRequestHandle="" RevisedLocaleID="$$" 
+                         ServerState="running"/>
+        <Status StartTime="&d" ProductVersion ="#.#.#">
+           <StatusInfo>Server functioning normally.</StatusInfo> 
+           <VendorInfo>OPC Foundation, OPC XML-DA Committee.</VendorInfo> 
+           <SupportedLocaleIDs>en</SupportedLocaleIDs> 
+           <SupportedLocaleIDs>de</SupportedLocaleIDs> 
+           <SupportedLocaleIDs>fr</SupportedLocaleIDs> 
+           [<SupportedLocaleIDs>$$</SupportedLocaleIDs>]
+           <SupportedInterfaceVersions>XML_DA_Version_1_0</SupportedInterfaceVersions> 
+        </Status>
+     </GetStatusResponse>
+
+    <Read>
+      <Options ReturnDiagnosticInfo="&b"
+               ReturnItemName="&b"
+               ReturnItemPath="&b"
+               ReturnItemTime="&b"
+	       ReturnErrorText="&b"
+               ClientRequestHandle="$$$$$$$$$"
+               LocaleID="$$-$$" />
+      <ItemList ItemPath="&p" MaxAge="&i" ReqType="xsd:&q">
+        [<Items ItemPath="&p" ItemName="&n"
+               ClientItemHandle="$$$$$" MaxAge="&i"/>]
+      </ItemList>
+    </Read>
+
+<ReadResponse>
+  <ReadResult RcvTime="&d" 
+              ReplyTime="&d" 
+              ClientRequestHandle="$$$$$$$$$" RevisedLocaleID="$$" 
+              ServerState="running"/> 
+  <RItemList>
+    [<Items ItemPath="&p" ItemName="&n" ClientItemHandle="$$$$$" Timestamp="&d">
+      <Value xsi:type="xsd:&q">&l</Value> 
+    </Items>]
+  </RItemList>
+</ReadResponse>
+
+  <Write ReturnValuesOnReply="&b">
+    <Options ReturnDiagnosticInfo="&b" 
+	     ReturnItemName="&b" ReturnItemPath="&b"
+             ReturnItemTime="&b"
+	     ReturnErrorText="&b"
+             ClientRequestHandle="$$$$$$$$$" LocaleID="$$-$$" /> 
+    <ItemList ItemPath="&p"> 
+      [<Items ItemPath="&p" ItemName="&n" ClientItemHandle="$$$$$$">
+        <Value xsi:type="xsd:&q">&l</Value> 
+      </Items>]
+    </ItemList>
+  </Write>
+
+  <WriteResponse>
+    <WriteResult RcvTime="&d"
+                 ReplyTime="&d"
+                 ClientRequestHandle="$$$$$$$$" RevisedLocaleID="$$" 
+                 ServerState="running"/> 
+    <RItemList>
+      [<Items ItemPath="&p" ItemName="&i" Timestamp="&d">
+       <Value xsi:type="xsd:&q">&l</Value> 
+      </Items>]
+    </RItemList>
+  </WriteResponse>
+
+  <Subscribe ReturnValuesOnReply="&b" SubscriptionPingRate="&i">
+    <Options ReturnDiagnosticInfo="&b" ReturnItemName="&b"
+             ReturnItemPath="&b"
+             ClientRequestHandle="$$$$$$$$$$$$$$" LocaleID="$$-$$" /> 
+    <ItemList RequestedSamplingRate="&i" ItemPath="&p" Deadband="&f" EnableBuffering="&b">
+      [<Items ItemPath="&p" ItemName="&n" RequestedSamplingRate="&i" ClientItemHandle="$$$$$" 
+	ReqType="xsd:&q" />]
+    </ItemList>
+  </Subscribe>
+
+  <SubscribeResponse ServerSubHandle="&s">
+    <SubscribeResult RcvTime="&d"
+                     ReplyTime ="&d"
+                     ClientRequestHandle="$$$$$$$$$$$$$$$$$$$$$$$"
+                     RevisedLocaleID="$$" 
+                     ServerState="running"/> 
+  </SubscribeResponse>
+
+  <SubscriptionPolledRefresh 	HoldTime="&d" 
+				WaitTime="&i" ReturnAllItems="&b">
+    <Options ReturnDiagnosticInfo="&b" ReturnItemName="&b"
+             ReturnItemPath="&b"
+             ClientRequestHandle="$$$$$$$$$$$$$$" /> 
+    <ServerSubHandles>&s</ServerSubHandles> 
+  </SubscriptionPolledRefresh>
+
+  <SubscriptionPolledRefreshResponse DataBufferOverflow="&b">
+    <SubscriptionPolledRefreshResult
+                RcvTime="&d"
+                ReplyTime="&d"
+                ClientRequestHandle="$$$$$$$$$$$$$$" RevisedLocaleID="$$"
+                ServerState="running"/> 
+    <RItemList SubscriptionHandle="&s">
+      [<Items ItemPath="&p" ItemName="&n" ClientItemHandle="$$$$$" Timestamp="&d">
+        <Value xsi:type="xsd:&q">&l</Value> 
+      </Items>]
+    </RItemList>
+  </SubscriptionPolledRefreshResponse>
+
+  <SubscriptionCancel ServerSubHandle="&s"/> 
+
+  <SubscriptionCancelResponse/> 
+
+   <Browse ClientRequestHandle=""
+          MaxElementsReturned="&i"
+          ElementNameFilter="&n" VendorFilter=""
+          ReturnAllProperties="&b" ReturnPropertyValues="&b"
+	  LocaleID="$$-$$" ItemPath="&p" ItemName="&n">
+	    [<PropertyNames>&q</PropertyNames>]
+  </Browse>
+
+<BrowseResponse MoreElements="&b">
+  <BrowseResult RcvTime="&d"
+                ReplyTime="&d"
+                ClientRequestHandle="$$$$$$$$" RevisedLocaleID="$$" 
+                ServerState="running"/> 
+  [<Elements Name="&n"
+           ItemName="&n" IsItem="&b" HasChildren="&b" />]
+</BrowseResponse>
+
+<BrowseResponse MoreElements="&b">
+  <BrowseResult RcvTime="&d"
+                ReplyTime="&d"
+                ClientRequestHandle="" RevisedLocaleID="$$" 
+                ServerState="running"/> 
+  [<Elements Name="$$$#" ItemPath="&p" ItemName="&n"
+           IsItem="true" HasChildren="&b">
+    [<Properties Name="&n" ResultID="S_OK">
+      <Value xsi:type="xsd:&q">&l</Value> 
+    </Properties>]
+  </Elements>]
+</BrowseResponse>
+
+  <GetProperties 
+                 ReturnAllProperties="&b" ReturnPropertyValues="&b"
+		 LocaleID="$$-$$" ItemPath="&p">
+    [<ItemIDs ItemPath="&p" ItemName="&n" />]
+    [<PropertyNames>&q</PropertyNames>]
+  </GetProperties>
+
+  <GetPropertiesResponse>
+   <GetPropertiesResult RcvTime="&d" 
+                       ReplyTime="&d" 
+                       ClientRequestHandle=" " RevisedLocaleID="$$" 
+                       ServerState="running"/>
+    <PropertyLists ItemPath="&p" ItemName="&n" ResultID="S_OK">
+    [<Properties Name="$$$$$$$" ResultID="S_OK">
+      <Value xsi:type="xsd:&q">&l</Value> 
+    </Properties>]
+    </PropertyLists>
+  </GetPropertiesResponse>

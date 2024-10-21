@@ -1,0 +1,28 @@
+Features
+--------
+1. Some OPC XSL Transformation 
+2. Add XPath benchmarks
+3. Separate DOM Creation Benchmark and Serilization Benchmark
+4. Add DOM Tree Walking Benchmark
+5. Output to OpenOffice SpreadSheet
+
+Optimizations
+-------------
+1. Try to remake Xalan XSLT truth XercesDomWrapperParsedSource
+
+New Parsers
+-----------
+1. Java+XMLSecurity: Add Encryption
+2. Apache XML Security for C: Add Encryption
+3. Add IBM XML Security for Java ?
+
+Problems with Libraries
+-----------------------
+1. Investigate sablotron library about parsing large <opcgen> documents ( more
+    then 4 iterations... )
+2. Solve somehow problems with Expat-Arabica-DOM (drops core, seems error in 
+    parser ?)
+
+Other
+-----
+1. Add support PUSH, PULL parsing in feature list

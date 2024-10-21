@@ -1,0 +1,6 @@
+#! /bin/bash
+
+openssl genrsa -out test.key
+openssl req -new -key test.key -out test.csr
+openssl x509 -req -signkey test.key -out test.crt -in test.csr
+rm -f test.csr

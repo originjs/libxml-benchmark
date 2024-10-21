@@ -1,0 +1,154 @@
+#!/bin/bash
+####################################
+# Memory usage benchmark set 2 #####
+####################################
+# C/C++ benchmarks prebufer all xml data, Java - not
+time=1
+
+export ORA_NLS33=/usr/share/xdk/nlsdata
+export ORA_XML_MESG=/usr/share/xdk/mesg
+
+bench() {
+	local name=$1;
+	local max=0; 
+	local err=0;
+	local mode=0;
+	local cmd;
+	
+	cmd=`echo $name | grep "_"`;
+	if [ $? -eq 0 ]; then 
+	    mode=1
+	    err=1
+	    while [ $err -eq 1 ]; do
+		cmd=`ps -C java --format rsz | head -n 2 | grep -v RSZ`;
+		err=$?
+	    done
+	    err=0
+	fi
+
+#	sleep 1
+	while [ $err -eq 0 ]; do
+	    if [ $mode -eq 1 ]; then 
+		cmd=`ps -C java --format rsz | head -n 2 | grep -v RSZ`;
+		err=$?
+	    else
+		cmd=`ps -C $name --format rsz | grep -v RSZ`;
+		err=$?
+	    fi
+	    if [ $err -eq 0 ]; then
+		if [ $cmd -gt $max ]; then 
+		    max=$cmd
+		fi
+	    fi
+	done
+	echo "Occupied memory: $max KB"
+
+}
+
+echo "******************** Parsing Benchmarks ********************"
+echo
+cd parse
+for name in *
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> opcgen 50"
+	./$name `expr $time "*" 5000` opcgen 50 &> /dev/null &
+	bench $name
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 50` xmlgen 262144 &> /dev/null &
+	bench $name
+	echo "-> dmoz rdf file ( 12 MB )"
+	./$name `expr $time "*" 3` ../xml.files/test.rdf &> /dev/null &
+	bench $name
+    fi
+done
+cd ..
+
+echo
+echo
+echo "******************** DOM Tree Build Benchmarks ********************"
+echo
+cd create
+for name in *
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> 5KB file (20)"
+	./$name `expr $time "*" 2500` 20 &> /dev/null &
+	bench $name
+	echo "-> 500KB file (2500)"
+	./$name `expr $time "*" 20` 2500 &> /dev/null &
+	bench $name
+	echo "-> 9MB file (50000)"
+	./$name `expr $time "*" 2` 50000 &> /dev/null &
+	bench $name
+    fi
+done
+cd ..
+
+echo
+echo
+echo "******************** Schema Validating Benchmarks ********************"
+echo
+cd validate
+for name in *
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 450` xmlgen 4096 &> /dev/null &
+	bench $name
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 15` xmlgen 262144 &> /dev/null &
+	bench $name
+	echo "-> opcgen 50 ( 3.5KB )"
+	./$name `expr $time "*" 80` opcgen 50 &> /dev/null &
+	bench $name
+    fi
+done
+cd ..
+
+echo
+echo
+echo "********** Security (Signature/Encryption)  Benchmarks *************"
+echo
+cd security
+for name in *
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 8` xmlgen 262144 &> /dev/null &
+	bench $name
+	echo "-> opcgen 50 ( 3.5KB )"
+	./$name `expr $time "*" 260` opcgen 50 &> /dev/null &
+	bench $name
+	echo "-> dmoz rdf file ( 12 MB ) - 4 times longer"
+	./$name `expr $time "*" 2` ../xml.files/test.rdf &> /dev/null &
+	bench $name
+    fi
+done
+cd ..
+
+echo
+echo
+echo "************* XSL Transformation Benchmarks ****************"
+echo
+cd xsl
+for name in *
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 750` xmlgen 4096 &> /dev/null &
+	bench $name
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 20` xmlgen 262144 &> /dev/null &
+	bench $name
+	echo "-> xmlgen 4 MB"
+	./$name `expr $time "*" 2` xmlgen 4096000 &> /dev/null &
+	bench $name
+    fi
+done
+cd ..

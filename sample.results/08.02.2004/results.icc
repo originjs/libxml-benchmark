@@ -1,0 +1,153 @@
+******************** Parsing Benchmarks ********************
+
+--->Running <xerces-dom> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 13.516 + 51.400(0.03%) ms, Parsing Time 0.826(1.59%) ms
+-> xmlgen 256 KB
+Initialisation time 0.246 + 1.689(24.99%) ms, Parsing Time 46.058(0.92%) ms
+-> xmlgen 32 MB
+Initialisation time 0.285 + 20.773(265.93%) ms, Parsing Time 5660.544(0.98%) ms
+-> opcgen 50 ( 3.5KB )
+Parsing Time 72362.686000 ms for 80000 messages
+-> opcgen 50000 ( 3 MB )
+Parsing Time 77623.762000 ms for 100 messages
+-> dmoz rdf file ( 12 MB )
+Initialisation time 0.274 + 0.000(0.00%) ms, Parsing Time 1423.923(1.22%) ms
+--->Running <xerces-sax> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 13.945 + 0.537(1.76%) ms, Parsing Time 0.290(3.26%) ms
+-> xmlgen 256 KB
+Initialisation time 0.512 + 3.583(15.51%) ms, Parsing Time 18.880(2.94%) ms
+-> xmlgen 32 MB
+Initialisation time 0.564 + 411.423(5.06%) ms, Parsing Time 2129.270(0.98%) ms
+-> opcgen 50 ( 3.5KB )
+Parsing Time 25640.663000 ms for 80000 messages
+-> opcgen 50000 ( 3 MB )
+Parsing Time 27079.414000 ms for 100 messages
+-> dmoz rdf file ( 12 MB )
+Initialisation time 0.526 + 132.608(2.55%) ms, Parsing Time 639.807(0.53%) ms
+--->Running <libxml> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 13.727 + 2.505(0.47%) ms, Parsing Time 0.531(2.23%) ms
+-> xmlgen 256 KB
+Initialisation time 0.107 + 0.000(0.00%) ms, Parsing Time 39.775(0.94%) ms
+-> xmlgen 32 MB
+Initialisation time 0.140 + 0.000(0.00%) ms, Parsing Time 4909.299(1.20%) ms
+-> opcgen 50 ( 3.5KB )
+Parsing Time 39983.553000 ms for 80000 messages
+-> opcgen 50000 ( 3 MB )
+Parsing Time 55266.462000 ms for 100 messages
+-> dmoz rdf file ( 12 MB )
+Initialisation time 0.131 + 0.000(0.00%) ms, Parsing Time 1462.797(1.93%) ms
+--->Running <libxml-sax> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 0.002 + 0.260(2.70%) ms, Parsing Time 0.143(4.90%) ms
+-> xmlgen 256 KB
+Initialisation time 0.001 + 0.341(56.02%) ms, Parsing Time 8.593(2.22%) ms
+-> xmlgen 32 MB
+Initialisation time 0.002 + 81.591(46.64%) ms, Parsing Time 1033.290(3.68%) ms
+-> opcgen 50 ( 3.5KB )
+Parsing Time 11531.987000 ms for 80000 messages
+-> opcgen 50000 ( 3 MB )
+Parsing Time 13919.204000 ms for 100 messages
+-> dmoz rdf file ( 12 MB )
+Initialisation time 0.002 + 0.000(0.00%) ms, Parsing Time 404.122(0.80%) ms
+
+
+******************** DOM Tree Build Benchmarks ********************
+
+--->Running <xerces-dom> benchmarks:
+-> 5KB file (20)
+Building DOM tree in 1.976(0.80) ms!
+-> 500KB file (2500)
+Building DOM tree in 186.650(1.09) ms!
+-> 9MB file (50000)
+Building DOM tree in 3698.664(0.54) ms!
+--->Running <libxml> benchmarks:
+-> 5KB file (20)
+Building DOM tree in 0.757(0.93) ms!
+-> 500KB file (2500)
+Building DOM tree in 93.543(1.08) ms!
+-> 9MB file (50000)
+Building DOM tree in 1862.193(0.85) ms!
+
+
+******************** Schema Validating Benchmarks ********************
+
+--->Running <xerces-dom> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 0.001 + 39.640(0.14%) ms, Validation Time 2.652(3.54%) ms
+-> xmlgen 256 KB
+Initialisation time 0.001 + 6.024(17.18%) ms, Validation Time 59.206(2.70%) ms
+-> opcgen 50 ( 3.5KB )
+Validating Time 20125.139000 ms for 1600 messages
+-> opcgen 50000 ( 3 MB ) - 4 times longer
+Validating Time 76566.801000 ms for 100 messages
+--->Running <libxml> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 14.130 + 0.017(109.13%) ms, Validation Time 0.216(8.73%) ms
+-> xmlgen 256 KB
+Initialisation time 0.700 + 0.000(0.00%) ms, Validation Time 15.151(4.24%) ms
+-> opcgen 50 ( 3.5KB )
+Validating Time 509.277000 ms for 1600 messages
+-> opcgen 50000 ( 3 MB ) - 4 times longer
+Validating Time 32224.275000 ms for 100 messages
+
+
+************* XSL Transformation Benchmarks ****************
+
+--->Running <xerces-dom> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 25.363 + 1.407(6.37%) ms
+XSL Transformation Time 5.069(2.37%) ms
+-> xmlgen 256 KB
+Initialisation time 5.688 + 2.097(78.78%) ms
+XSL Transformation Time 215.666(1.09%) ms
+-> xmlgen 4 MB
+Initialisation time 5.737 + 0.000(0.00%) ms
+XSL Transformation Time 4404.948(0.62%) ms
+--->Running <libxml> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 14.601 + 0.248(28.04%) ms
+XSL Transformation Time 2.484(2.80%) ms
+-> xmlgen 256 KB
+Initialisation time 0.773 + 3.130(39.10%) ms
+XSL Transformation Time 100.414(1.22%) ms
+-> xmlgen 4 MB
+Initialisation time 0.802 + 29.997(29.77%) ms
+XSL Transformation Time 1570.662(0.57%) ms
+
+********** Security (Signature/Encryption)  Benchmarks *************
+
+--->Running <libxml1> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 84.740 + 1.880(18.56%) ms
+Signing/Verifying Time 4.287(5.50%) ms
+Encrypting/Decrypting Time 4.565(2.48%) ms
+-> xmlgen 256 KB
+Initialisation time 6.305 + 9.505(46.22%) ms
+Signing/Verifying Time 174.042(1.62%) ms
+Encrypting/Decrypting Time 165.610(0.95%) ms
+-> opcgen 50 ( 3.5KB )
+Signing/Verifying Time 19742.857000 ms for 5300 messages
+Encrypting/Decrypting Time 25050.716000 ms for 5300 messages
+-> opcgen 50000 ( 3 MB ) - 4 times longer
+Signing/Verifying Time 168794.271000 ms for 100 messages
+Encrypting/Decrypting Time 245091.071000 ms for 100 messages
+-> dmoz rdf file ( 12 MB ) - 4 times longer
+Initialisation time 6.185 + 169.156(38.03%) ms
+Signing/Verifying Time 2857.866(0.70%) ms
+Encrypting/Decrypting Time 6204.848(0.71%) ms
+--->Running <xerces-dom> benchmarks:
+-> xmlgen 4 KB
+Initialisation time 1.116 + 0.000(0.00%) ms
+Signing/Verifying Time 31.277(1.47%) ms
+Encrypting/Decrypting Time 10.678(1.77%) ms
+-> xmlgen 256 KB
+Initialisation time 1.097 + 286.404(7.74%) ms
+Signing/Verifying Time 3703.931(0.38%) ms
+Encrypting/Decrypting Time 675.361(1.23%) ms
+-> opcgen 50 ( 3.5KB )
+Signing/Verifying Time 156311.755000 ms for 5300 messages
+Encrypting/Decrypting Time 55022.046000 ms for 5300 messages
+-> opcgen 50000 ( 3 MB ) - 4 times longer

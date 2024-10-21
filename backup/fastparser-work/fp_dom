@@ -1,0 +1,17 @@
+#! /bin/bash
+# Usage:
+#	./fp_dom <iterations> [<xmlfile>|xmlgen|opcgen] <size>
+
+#FPC=`cat ../Makefile.in | grep FASTPARSER_CLASSPATH | sed -e s/.*_CLASSPATH[\ \t]*=[\ \t]*//`
+FPC=.:../tools:/usr/java/fp/fp-dom.jar:/usr/java/fp/fp-parser.jar:/usr/java/fp/dom.jar:$CLASSPATH
+
+if [ "$2" == "xmlgen" ]; then
+    ../xmlgen/xmlgen $3 $1
+elif [ "$2" == "opcgen" ]; then
+    ../xmlgen/opcgen $3 $1
+fi
+
+java -classpath $FPC fp_dom $1 $2 $3
+
+rm -rf ../xml.tmp/
+mkdir ../xml.tmp/

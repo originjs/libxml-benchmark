@@ -1,0 +1,137 @@
+#gcc = icc -no_cpprt
+gcc = gcc
+#gpp = icc
+gpp = g++
+compatgpp = g++-2.95
+gppstd = g++
+javac = javac
+
+# 	Since linking with pthreads drastically affects performance and 
+#	threading enviroment is standard case nowdays, all tests can be
+#	linked with threads library. Some of libraries in standard 
+#	distributions are linked, others not. Forethore this can affect
+#	relative performance
+FORCE_LINK_PTHREAD = yes
+
+#	Support for XMark xml generator from 
+#	http://monetdb.cwi.nl/xml/index.html
+GENERATOR_XMARK = yes
+
+#	DTD validation in parsing benchmark (implemented only for few parsers)
+DTD_VALIDATION = no
+
+ifeq ($(FORCE_LINK_PTHREAD),yes)
+PTHREAD_LIBS = -lpthread
+else
+PTHREAD_LIBS = 
+endif
+
+LIBS = -lm $(PTHREAD_LIBS)
+FLAGS = 
+
+####################################################################################
+
+LIBXML = yes
+LIBXML_INCLUDE = -I /usr/include/libxml2
+LIBXML_LIB =  -lxml2
+
+ifeq ($(LIBXML),yes)
+GDOME = yes
+GDOME_INCLUDE = -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/include/libgdome
+GDOME_LIB =  -lgdome -lglib $(LIBXML_LIB)
+
+LIBXSLT = yes
+LIBXSLT_INCLUDE = -I/usr/include/libxml2 -I/usr/include/libxslt
+LIBXSLT_LIB = -lxslt $(LIBXML_LIB)
+
+XMLSEC = no
+XMLSEC_INCLUDE = $(shell xmlsec-config --cflags)
+XMLSEC_LIB = $(shell xmlsec-config --libs)
+
+XMLSEC1 = yes
+XMLSEC1_INCLUDE = $(shell xmlsec1-config --cflags)
+XMLSEC1_LIB = $(shell xmlsec1-config --libs)
+endif
+
+EXPAT = yes
+EXPAT_INCLUDE = 
+EXPAT_LIB = -lexpat
+
+ifeq ($(EXPAT),yes)
+SABLOTRON = yes
+SABLOTRON_INCLUDE =
+SABLOTRON_LIB =  -lsablot $(EXPAT_LIB)
+
+ARABICA = yes
+ARABICA_GCC = $(gpp)
+ARABICA_INCLUDE = -I/usr/include/arabica
+ARABICA_LIB = -L/usr/include/arabica -lpthread -lArabica
+
+CSLXML = yes
+CSLXML_INCLUDE = -I/usr/include/cslxml
+CSLXML_LIB =  -lcslxml
+endif
+
+XERCESC = yes
+# Supported versions 2.1 (xalan<=1.3, gcc 2.96), 2.2, 2.3 (xalan>=1.4)
+XERCESC_VERSION = 2.3
+XERCESC_INCLUDE = -I/usr/include/xerces/
+XERCESC_LIB = -lxerces-c
+
+ifeq ($(XERCESC), yes)
+XALANC = yes
+XALANC_INCLUDE = -I/usr/include/xerces/ -I/usr/include/xalan/
+XALANC_LIB = -lxalan-c $(XERCESC_LIB)
+
+ifneq ($(XERCESC_VERSION), 2.1)
+XSECURITY = yes
+XSECURITY_POST_10 = no
+XSECURITY_LIB = -lxml-security-c $(XERCESC_LIB) -lcrypto
+ifeq ($(XSECURITY_POST_10), yes)
+XSECURITY_INCLUDE =  -I/usr/include/xsec $(XERCES_INCLUDE) -I/usr/include/openssl -D_APACHE_XML_SECURITY_1
+else
+XSECURITY_INCLUDE = -I/usr/include/xsec $(XERCES_INCLUDE) -I/usr/include/openssl
+endif
+endif
+endif
+
+XML4C = no
+# Supported versions 5.0 (xalan<=1.3, gcc 2.96), 5.1, 5.2 (xalan>=1.4)
+XML4C_VERSION = 5.2
+XML4C_INCLUDE = -I/usr/include/xml4c/
+XML4C_LIB = -lxml4c
+
+ifeq ($(XML4C), yes)
+# Realy using xalan library...
+LOTUSXSL = no
+LOTUSXSL_INCLUDE = -I/usr/include/xml4c/ -I/usr/include/xalan/
+LOTUSXSL_LIB = -lxalan-c $(XML4C_LIB)
+endif
+
+RXP = yes
+RXP_INCLUDE = -I/usr/include/rxp
+RXP_LIB =  -lrxp
+
+XDKC = yes
+XDKC_INCLUDE = -I/usr/include/xdk_c
+XDKC_LIB = -L/usr/lib/xdk_c -lxml9 -lcore9 -lnls9 -lunls9 -lcore9 -lnls9 -lcore9 -lnls9 -lnsl -lpthread -lm
+XDKC_LIB_VALIDATE = -L/usr/lib/xdk_c -lxml9 -lxsd9 -lcore9 -lnls9 -lunls9 -lcore9 -lnls9 -lcore9 -lnls9 -lnsl -lpthread -lm
+
+XDKP = yes
+XDKP_INCLUDE = -I/usr/include/xdk_cpp
+XDKP_LIB = -L/usr/lib/xdk_cpp -lxml9 -lcore9 -lnls9 -lunls9 -lcore9 -lnls9 -lcore9 -lnls9 -lnsl -lpthread -lm
+XDKP_LIB_VALIDATE = -L/usr/lib/xdk_cpp -lxml9 -lxsd9 -lcore9 -lnls9 -lunls9 -lcore9 -lnls9 -lcore9 -lnls9 -lnsl -lpthread -lm
+
+QT = yes
+QT_INCLUDE = -I/usr/lib/qt3/include
+QT_LIB = -L/usr/lib/qt3/lib -lqt-mt
+
+
+JAVA = yes
+ifeq ($(JAVA),yes)
+XDKJ = yes
+ORACLE_CLASSPATH = .:../tools/:/usr/java/xdk/lib/xmlparserv2.jar:$(CLASSPATH)
+
+SUN = yes
+SUN_CLASSPATH = .:../tools/:$(CLASSPATH)
+endif

@@ -1,0 +1,8 @@
+#! /bin/bash
+# Usage:
+#	./oracle_dom2 <iterations> <size>
+
+ORACLE_CLASSPATH=`cat ../Makefile.in | grep ORACLE_CLASSPATH | sed -e s/.*_CLASSPATH[\ \t]*=[\ \t]*//`
+
+java -classpath $ORACLE_CLASSPATH oracle_dom2 $1 $2
+

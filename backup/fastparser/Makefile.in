@@ -1,0 +1,5 @@
+FASTPARSER = yes
+FASTPARSER_CLASSPATH = .:../tools:/usr/java/fp/fp-dom.jar:/usr/java/fp/fp-parser.jar:/usr/java/fp/dom.jar:$(CLASSPATH)
+ifeq ($(FASTPARSER), yes)
+TARGETS += fp_dom.class
+endif

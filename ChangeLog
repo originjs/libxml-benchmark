@@ -1,0 +1,94 @@
+10 Feb 2003 - Version: 1.0
+--------------------------
+*	Initial Version
+
+20 Feb 2003
+--------------------------
+*	Support for Xerces-C 2.2.0 (steel xalan requires 2.1.0, XSLT benchmark
+	not available for xerces)
+*	Added script for memory usage benchmarks
+*	Fixed memory leak in oracle parsing benchmarks
+
+6 Mar 2003
+--------------------------
+*	Add: Libxml(native) parsing in push mode
+
+7 Apr 2003 - Version 1.1
+--------------------------
+*	Simplified package configuration
+
+5 May 2003 - Version 1.1.1
+--------------------------
+*	Fixed minor bugs
+*	Now all configuration options resist in Makefile.in
+
+
+16 June 2003
+------------
+*	Support for Xalan 1.5
+*	Support for xml4c 5.2
+*	Fixed minor bug in XML Security 0.x benchmark
+*	Fixed Arabica with new gcc compilation issue
+*	Patch to build Xalan 1.5 with Xerces 2.3
+
+18 June 2003
+------------
+*	Support for xmlsec1 1.0.2
+*	Support for J2SE 1.4.1 + Java WebServices Developer Pack 1.2
+
+20 June 2003
+------------
+*	Addition of "Apache XML Security for C" support started
+*	Fixed minor error in XML Security benchmark
+
+21 June 2003
+------------
+*	Support for Apache XML Security for C (Signature)
+
+22 June 2003 - Version 1.2.0
+----------------------------
+*	More configurations to Makefile.in
+*	Minor documentation update
+
+26 Sep 2003 - Version 1.2.1
+---------------------------
+*	Support for xmlsec1 1.1.2
+*	Tested againist latest versions of Apache Xalan and Apache XML Security. All seems OK.
+*	Minor documentation update
+
+28 Oct 2003 - Version 1.2.2
+---------------------------
+*	Makefile updated to latest Arabica (Oct2003)
+*	xmlsec 1.2.x support (finally fixed and no patching required)
+
+7 Feb 2004
+----------
+*	Improved OPC message exchange emulation. Results of OPCGEN benchmarks
+	will be incompatible with previous releases (Near to compatible results
+	can be occured with "OPCGEN 40")
+*	OPC XML-DA schema updated to version 1.0
+
+8 Feb 2004
+----------
+*	Oracle XDK supporte updated to newer versions
+
+9 Feb 2004 - Version 1.3.0
+--------------------------
+*	Support Apache XML Security for C++, Version: CVS 08.02.2004
+*	Experemental support for XML Encryption Benchmark for Apache XML 
+	Security for C++ from CVS tree.
+*	Tested againist latest libraries
+
+13 Feb 2004 - Version 1.3.1
+---------------------------
+*	LibXML2 parsing optimizations (both SAX and DOM)
+*	Since linking with pthreads drastically affects performance and 
+	threading enviroment is standard case nowdays, option to link 
+	all tests againist threads library are provided.
+*	Implemented other method of Xalan XSL transformation (from Xerces
+	DOM tree). Since it's significantly slower, older one is used by
+	default.
+*	Implemented XMark (http://monetdb.cwi.nl/xml/index.html) xml generator
+	support.
+*	DTD validation for parsing benchmark (only for libxml and xdk 
+	implemented)

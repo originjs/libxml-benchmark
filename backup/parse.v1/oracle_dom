@@ -1,0 +1,3 @@
+ORACLE_HOME=/usr/java/xdk
+MAKE_CLASSPATH=.:$ORACLE_HOME/lib/xmlparserv2.jar:$CLASSPATH
+java -classpath "$MAKE_CLASSPATH"  oracle_dom test.xml

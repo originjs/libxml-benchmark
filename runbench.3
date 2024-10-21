@@ -1,0 +1,114 @@
+#!/bin/bash
+###########################################
+# Benchmark set 1 (libxml and xerces) #####
+###########################################
+time=1
+
+export ORA_NLS33=/usr/share/xdk/nlsdata
+export ORA_XML_MESG=/usr/share/xdk/mesg
+export PATH=$PATH:/usr/java/j2sdk1.4.2/bin
+
+echo "******************** Parsing Benchmarks ********************"
+echo
+cd parse
+for name in "xerces-dom" "xerces-sax" "libxml" "libxml-sax"
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 85000` xmlgen 4096
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 1000` xmlgen 262144
+	echo "-> xmlgen 32 MB"
+	./$name `expr $time "*" 8` xmlgen 32000000
+	echo "-> opcgen 50 ( 3.5KB )"
+	./$name `expr $time "*" 80000` opcgen 50
+	echo "-> opcgen 50000 ( 3 MB )"
+	./$name `expr $time "*" 100` opcgen 50000
+	echo "-> dmoz rdf file ( 12 MB )"
+	./$name `expr $time "*" 25` ../xml.files/test.rdf
+    fi
+done
+cd ..
+
+echo
+echo
+echo "******************** DOM Tree Build Benchmarks ********************"
+echo
+cd create
+for name in "xerces-dom" "libxml"
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> 5KB file (20)"
+	./$name `expr $time "*" 53000` 20
+	echo "-> 500KB file (2500)"
+	./$name `expr $time "*" 360` 2500
+	echo "-> 9MB file (50000)"
+	./$name `expr $time "*" 20` 50000
+    fi
+done
+cd ..
+
+echo
+echo
+echo "******************** Schema Validating Benchmarks ********************"
+echo
+cd validate
+for name in "xerces-dom" "libxml"
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 8900` xmlgen 4096
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 285` xmlgen 262144
+	echo "-> opcgen 50 ( 3.5KB )"
+	./$name `expr $time "*" 1600` opcgen 50
+	echo "-> opcgen 50000 ( 3 MB ) - 4 times longer"
+	./$name `expr $time "*" 100` opcgen 50000
+    fi
+done
+cd ..
+
+echo
+echo
+echo "************* XSL Transformation Benchmarks ****************"
+echo
+cd xsl
+for name in "xerces-dom" "libxml"
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 15000` xmlgen 4096
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 350` xmlgen 262144
+	echo "-> xmlgen 4 MB"
+	./$name `expr $time "*" 25` xmlgen 4096000
+    fi
+done
+cd ..
+
+echo
+echo
+echo "********** Security (Signature/Encryption)  Benchmarks *************"
+echo
+cd security
+for name in "xerces-dom" "libxml1"
+do
+    if ( [ -x $name ] && [ -f $name ] ); then
+	echo "--->Running <$name> benchmarks:"
+	echo "-> xmlgen 4 KB"
+	./$name `expr $time "*" 4500` xmlgen 4096
+	echo "-> xmlgen 256 KB"
+	./$name `expr $time "*" 120` xmlgen 262144
+	echo "-> opcgen 50 ( 3.5KB )"
+	./$name `expr $time "*" 5300` opcgen 50
+	echo "-> opcgen 50000 ( 3 MB ) - 4 times longer"
+	./$name `expr $time "*" 100` opcgen 50000
+	echo "-> dmoz rdf file ( 12 MB ) - 4 times longer"
+	./$name `expr $time "*" 12` ../xml.files/test.rdf
+    fi
+done
+cd ..

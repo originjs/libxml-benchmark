@@ -1,0 +1,8 @@
+#! /bin/bash
+# Usage:
+#	./sun_dom2 <iterations> <size>
+
+SUN_CLASSPATH=`cat ../Makefile.in | grep SUN_CLASSPATH | sed -e s/.*_CLASSPATH[\ \t]*=[\ \t]*//`
+
+java -classpath $SUN_CLASSPATH sun_dom2 $1 $2
+

@@ -1,0 +1,21 @@
+#! /bin/bash
+# Usage:
+#	./sun_dom2 <iterations> [<xmlfile>|xmlgen|opcgen] <size>
+
+SUN_CLASSPATH=".:../tools:$CLASSPATH"
+
+if [ "$2" == "xmlgen" ]; then
+    ../xmlgen/xmlgen $3 $1
+elif [ "$2" == "opcgen" ]; then
+    ../xmlgen/opcgen $3 $1
+fi
+
+java -Xverify:none -classpath $SUN_CLASSPATH sun_dom3 $1 $2 $3
+
+if [ "$2" == "xmlgen" ]; then
+    rm -rf ../xml.tmp/
+    mkdir ../xml.tmp/
+elif [ "$2" == "opcgen" ]; then
+    rm -rf ../xml.tmp/
+    mkdir ../xml.tmp/
+fi
