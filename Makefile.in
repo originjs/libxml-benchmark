@@ -48,7 +48,7 @@ XMLSEC = no
 XMLSEC_INCLUDE = $(shell xmlsec-config --cflags)
 XMLSEC_LIB = $(shell xmlsec-config --libs)
 
-XMLSEC1 = yes
+XMLSEC1 = no
 XMLSEC1_INCLUDE = $(shell xmlsec1-config --cflags)
 XMLSEC1_LIB = $(shell xmlsec1-config --libs)
 endif
