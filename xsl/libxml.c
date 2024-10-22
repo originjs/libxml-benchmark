@@ -5,10 +5,10 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/xmlschemas.h>
-#include <xslt.h>
-#include <xsltInternals.h>
-#include <transform.h>
-#include <xsltutils.h>
+#include <libxslt/xslt.h>
+#include <libxslt/xsltInternals.h>
+#include <libxslt/transform.h>
+#include <libxslt/xsltutils.h>
 
 #include "tools.h"
 

@@ -41,7 +41,7 @@ GDOME_INCLUDE = -I/usr/local/opt/glib-1.2 -I/usr/lib/glib/include -I/usr/local/o
 GDOME_LIB =  -lgdome -lglib $(LIBXML_LIB)
 
 LIBXSLT = yes
-LIBXSLT_INCLUDE = -I/usr/local/opt/libxml2 -I/usr/local/opt/libxslt
+LIBXSLT_INCLUDE = -I/usr/local/opt/libxml2/include/libxml2 -I/usr/local/Cellar/libxslt/1.1.42_1/include
 LIBXSLT_LIB = -lxslt $(LIBXML_LIB)
 
 XMLSEC = no
