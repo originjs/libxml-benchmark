@@ -176,3 +176,5 @@ expat-cslxml-dom: expat-cslxml-dom.cpp $(HEADERS)
 
 fp_dom.class: fp_dom.java $(CLASSES)
 	$(javac) -classpath $(FASTPARSER_CLASSPATH) $< 
+
+FLAGS += -g
