@@ -9,8 +9,33 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/parse/libxml",
-            // "args": ["25", "./xml.files/test.rdf"],
-            "args": ["85000", "xmlgen", "4096"],
+            "args": ["25", "./xml.files/test.rdf"],
+            // "args": ["85000", "xmlgen", "4096"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug pugixml",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/parse/pugixml",
+            "args": ["25", "./xml.files/test.rdf"],
+            // "args": ["85000", "xmlgen", "4096"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

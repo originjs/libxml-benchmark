@@ -1,6 +1,7 @@
 include ../Makefile.in
 
 ALLTARGETS = libxml libxml-sax libxml-push libxml-dom \
+	pugixml \
 	expat expat-arabica-sax expat-arabica-dom \
 	expat-cslxml-sax expat-cslxml-dom expat-sablotron-dom \
 	xerces-sax xerces-dom xml4c-sax xml4c-dom \
@@ -16,7 +17,10 @@ ifeq ($(DTD_VALIDATION),yes)
 FLAGS+=-DDTD_VALIDATION
 endif
 
-TARGETS = 
+ifeq ($(PUGIXML), yes)
+TARGETS += pugixml
+endif
+
 ifeq ($(LIBXML), yes)
 TARGETS += libxml libxml-push libxml-sax
 ifeq ($(GDOME), yes)
@@ -176,5 +180,8 @@ expat-cslxml-dom: expat-cslxml-dom.cpp $(HEADERS)
 
 fp_dom.class: fp_dom.java $(CLASSES)
 	$(javac) -classpath $(FASTPARSER_CLASSPATH) $< 
+
+pugixml: pugixml.c $(HEADERS)
+	$(gpp) $< -o pugixml $(PUGIXML_INCLUDE) $(PUGIXML_LIB) $(LIBS) $(FLAGS)
 
 FLAGS += -g

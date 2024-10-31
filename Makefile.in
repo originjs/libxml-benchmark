@@ -135,3 +135,7 @@ ORACLE_CLASSPATH = .:../tools/:/usr/java/xdk/lib/xmlparserv2.jar:$(CLASSPATH)
 SUN = yes
 SUN_CLASSPATH = .:../tools/:$(CLASSPATH)
 endif
+
+PUGIXML = yes
+PUGIXML_INCLUDE = -I/usr/local/opt/pugixml
+PUGIXML_LIB = -lpugixml

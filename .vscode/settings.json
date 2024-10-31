@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "xslt.h": "c"
+        "xslt.h": "c",
+        "tools.h": "c",
+        "pugixml.hpp": "c"
     }
 }
