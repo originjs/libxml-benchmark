@@ -2,6 +2,8 @@
     "files.associations": {
         "xslt.h": "c",
         "tools.h": "c",
-        "pugixml.hpp": "c"
+        "pugixml.hpp": "c",
+        "xmlmemory.h": "c",
+        "parser.h": "c"
     }
 }

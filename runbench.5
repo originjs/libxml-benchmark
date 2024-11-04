@@ -1,0 +1,43 @@
+#!/bin/bash
+########################################################
+# Memory usage benchmark set 5 (libxml and pugixml) #####
+########################################################
+# C/C++ benchmarks prebufer all xml data, Java - not
+time=1
+
+bench() {
+	local name=$1
+	local max=0
+	local err=0
+	local cmd
+
+	while [ $err -eq 0 ]; do
+		pid=$(pgrep $name)
+		if [ -z "$pid" ]; then
+			err=1
+		else
+			cmd=$(ps -o rss= -p $pid)
+			err=$?
+		fi
+		if [ $err -eq 0 ]; then
+			if [ $cmd -gt $max ]; then
+				max=$cmd
+				# echo "max: $max, cmd: $cmd"
+			fi
+		fi
+	done
+	echo "Occupied memory: $max KB"
+}
+
+echo "******************** Parsing Benchmarks ********************"
+echo
+cd parse
+for name in "pugixml" "libxml" "expat"; do
+	if ([ -x $name ] && [ -f $name ]); then
+		echo "--->Running <$name> benchmarks:"
+		echo "-> dmoz rdf file ( 12 MB )"
+		./$name $(expr $time "*" 3) ../xml.files/test.rdf &
+		bench $name
+	fi
+done
+cd ..
