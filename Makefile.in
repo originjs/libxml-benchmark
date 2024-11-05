@@ -31,6 +31,10 @@ FLAGS =
 
 ####################################################################################
 
+LIBXML_OPENEULER = yes
+LIBXML_OPENEULER_INCLUDE = -I /usr/local/include/libxml2
+LIBXML_OPENEULER_LIB =  -lxml2
+
 LIBXML = yes
 LIBXML_INCLUDE = -I /usr/local/opt/libxml2
 LIBXML_LIB =  -lxml2
@@ -40,7 +44,7 @@ GDOME = no
 GDOME_INCLUDE = -I/usr/local/opt/glib-1.2 -I/usr/lib/glib/include -I/usr/local/opt/libgdome
 GDOME_LIB =  -lgdome -lglib $(LIBXML_LIB)
 
-LIBXSLT = yes
+LIBXSLT = no
 LIBXSLT_INCLUDE = -I/usr/local/opt/libxml2/include/libxml2 -I/usr/local/Cellar/libxslt/1.1.42_1/include
 LIBXSLT_LIB = -lxslt $(LIBXML_LIB)
 
@@ -129,10 +133,10 @@ QT_LIB = -L/usr/lib/qt3/lib -lqt-mt
 
 JAVA = no
 ifeq ($(JAVA),yes)
-XDKJ = yes
+XDKJ = no
 ORACLE_CLASSPATH = .:../tools/:/usr/java/xdk/lib/xmlparserv2.jar:$(CLASSPATH)
 
-SUN = yes
+SUN = no
 SUN_CLASSPATH = .:../tools/:$(CLASSPATH)
 endif
 

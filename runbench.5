@@ -32,7 +32,7 @@ bench() {
 echo "******************** Parsing Benchmarks ********************"
 echo
 cd parse
-for name in "pugixml" "libxml" "expat"; do
+for name in "pugixml" "libxml" "expat" "libxmlopeneuler"; do
 	if ([ -x $name ] && [ -f $name ]); then
 		echo "--->Running <$name> benchmarks:"
 		echo "-> dmoz rdf file ( 12 MB )"

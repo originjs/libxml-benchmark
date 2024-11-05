@@ -1,6 +1,6 @@
 include ../Makefile.in
 
-ALLTARGETS = libxml libxml-sax libxml-push libxml-dom \
+ALLTARGETS = libxml libxml-sax libxml-push libxml-dom libxml-openeuler \
 	pugixml \
 	expat expat-arabica-sax expat-arabica-dom \
 	expat-cslxml-sax expat-cslxml-dom expat-sablotron-dom \
@@ -19,6 +19,10 @@ endif
 
 ifeq ($(PUGIXML), yes)
 TARGETS += pugixml
+endif
+
+ifeq ($(LIBXML_OPENEULER), yes)
+TARGETS += libxml-openeuler
 endif
 
 ifeq ($(LIBXML), yes)
@@ -79,6 +83,9 @@ all: $(TARGETS)
 
 clean:
 	rm -f $(ALLTARGETS) $(CLASSES)
+
+libxml-openeuler: libxml-openeuler.c $(HEADERS)
+	$(gpp) $< -o libxmlopeneuler $(LIBXML_OPENEULER_INCLUDE) $(LIBXML_OPENEULER_LIB) $(LIBS) $(FLAGS)
 
 libxml: libxml.c $(HEADERS)
 	$(gcc) $< -o libxml $(LIBXML_INCLUDE) $(LIBXML_LIB) $(LIBS) $(FLAGS)
