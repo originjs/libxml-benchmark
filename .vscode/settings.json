@@ -4,6 +4,11 @@
         "tools.h": "c",
         "pugixml.hpp": "c",
         "xmlmemory.h": "c",
-        "parser.h": "c"
+        "parser.h": "c",
+        "disp.h": "c",
+        "math.h": "c",
+        "xmark.h": "c",
+        "xmlgen.h": "c",
+        "xmlsave.h": "c"
     }
 }

@@ -11,6 +11,9 @@
 #include "../xmlgen/xmark.h"
 #endif /* GENERATOR_XMARK */
 
+// 定义文档释放函数的类型
+typedef void (*doc_free_fn)(void* doc);
+
 struct TestData {
     unsigned long iterations;
     unsigned long size;
@@ -18,6 +21,8 @@ struct TestData {
     char *fn;
     char *xml;
     unsigned long xmllen;
+	void *parsed_doc;  // Store parsed document
+	doc_free_fn free_doc;  // 添加释放函数指针
 };
 
 char *ReadFile(char *fn) {
@@ -56,7 +61,8 @@ void ReadConfig(struct TestData *td) {
 
 void initXML(struct TestData *td);
 void releaseXML(struct TestData *td);
-void parseXML(struct TestData *td, unsigned long iter);
+void* parseXML(struct TestData *td, unsigned long iter);
+void saveXML(struct TestData *td, void* doc);
 
 void Usage(char *myname) {
 
@@ -77,11 +83,12 @@ int Test(int argc, char *argv[]) {
     int i,j;
     struct timeval pre_time,post_time;
     struct timezone tz;
-    unsigned long init_time,init_time2,time;
+    unsigned long init_time,init_time2,time,save_time;
     double init_dtime,init_d;
     unsigned char mode=0;	/* 0 - file, 1 - xmlgen, 2 - opcgen */
     struct TestData td;
     char *xmlbuf;
+    void* doc;
 
     if ((argc<3)||(argc>4)) Usage(argv[0]);
     
@@ -157,7 +164,7 @@ int Test(int argc, char *argv[]) {
     init_time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 
     gettimeofday(&pre_time,&tz);
-    parseXML(&td,0);
+    doc = parseXML(&td,0);
     gettimeofday(&post_time,&tz);
     init_time2=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
         
@@ -166,27 +173,42 @@ int Test(int argc, char *argv[]) {
 	switch (mode) {
 	    case 1:
 		td.xmllen=xmlgen();
+		td.free_doc(doc);  // 使用函数指针释放文档
+		doc = parseXML(&td,i);
 	    break;
 	    case 2:
 		td.xmllen=opcgen();
+		td.free_doc(doc);  // 使用函数指针释放文档
+		doc = parseXML(&td,i);
 	    break;
 #ifdef GENERATOR_XMARK
 	    case 3:
 		td.xmllen=xmark(0);
+		td.free_doc(doc);  // 使用函数指针释放文档
+		doc = parseXML(&td,i);
 	    break;
 	    case 4:
 		td.xmllen=xmark(1);
+		td.free_doc(doc);  // 使用函数指针释放文档
+		doc = parseXML(&td,i);
 	    break;
 #endif /* GENERATOR_XMARK */
 	}
+
 	gettimeofday(&pre_time,&tz);
 	parseXML(&td,i);
 	gettimeofday(&post_time,&tz);
 	time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 	disp_event(time);
-//	printf("%lu\n",time);
+
+	gettimeofday(&pre_time,&tz);
+	saveXML(&td,doc);
+	gettimeofday(&post_time,&tz);
+	save_time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
+	save_disp_event(save_time);
     }
     disp_post();
+    td.free_doc(doc);  // 使用函数指针释放文档
     releaseXML(&td);
     
     switch (mode) {
@@ -217,7 +239,15 @@ int Test(int argc, char *argv[]) {
 	    init_d=300 * disp_d / fabs(init_time2 - disp_m);
 	    init_dtime=(init_time2 - disp_m)/1000;
 	}
-	printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms\n",(1. * init_time) / 1000, init_dtime, init_d, disp_m / 1000, 300*disp_d/disp_m);
+	printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms, Saving Time %.3lf(%.2lf%) ms\n",
+	    (1. * init_time) / 1000,           // 初始化时间
+	    init_dtime,                        // 额外初始化时间
+	    init_d,                            // 初始化时间的变异系数
+	    disp_m / 1000,                     // 解析时间
+	    300*disp_d/disp_m,                 // 解析时间的变异系数
+	    save_disp_m / 1000,                // 保存时间
+	    300*save_disp_d/save_disp_m        // 保存时间的变异系数
+	);
     }
 
     return 0;

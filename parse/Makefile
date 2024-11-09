@@ -26,7 +26,7 @@ TARGETS += libxml-openeuler
 endif
 
 ifeq ($(LIBXML), yes)
-TARGETS += libxml libxml-push libxml-sax
+TARGETS += libxml
 ifeq ($(GDOME), yes)
 TARGETS +=  libxml-dom
 endif
