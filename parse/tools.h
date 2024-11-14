@@ -167,36 +167,31 @@ int Test(int argc, char *argv[]) {
     doc = parseXML(&td,0);
     gettimeofday(&post_time,&tz);
     init_time2=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
-        
+
+	saveXML(&td,doc);
+	td.free_doc(doc);
+ 
     disp_init();
     for (i=1;i<=td.iterations;i++) {
 	switch (mode) {
 	    case 1:
 		td.xmllen=xmlgen();
-		td.free_doc(doc);  // 使用函数指针释放文档
-		doc = parseXML(&td,i);
 	    break;
 	    case 2:
 		td.xmllen=opcgen();
-		td.free_doc(doc);  // 使用函数指针释放文档
-		doc = parseXML(&td,i);
 	    break;
 #ifdef GENERATOR_XMARK
 	    case 3:
 		td.xmllen=xmark(0);
-		td.free_doc(doc);  // 使用函数指针释放文档
-		doc = parseXML(&td,i);
 	    break;
 	    case 4:
 		td.xmllen=xmark(1);
-		td.free_doc(doc);  // 使用函数指针释放文档
-		doc = parseXML(&td,i);
 	    break;
 #endif /* GENERATOR_XMARK */
 	}
 
 	gettimeofday(&pre_time,&tz);
-	parseXML(&td,i);
+	doc = parseXML(&td,i);
 	gettimeofday(&post_time,&tz);
 	time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 	disp_event(time);
@@ -208,7 +203,7 @@ int Test(int argc, char *argv[]) {
 	save_disp_event(save_time);
     }
     disp_post();
-    td.free_doc(doc);  // 使用函数指针释放文档
+    td.free_doc(doc);
     releaseXML(&td);
     
     switch (mode) {
@@ -240,13 +235,13 @@ int Test(int argc, char *argv[]) {
 	    init_dtime=(init_time2 - disp_m)/1000;
 	}
 	printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms, Saving Time %.3lf(%.2lf%) ms\n",
-	    (1. * init_time) / 1000,           // 初始化时间
-	    init_dtime,                        // 额外初始化时间
-	    init_d,                            // 初始化时间的变异系数
-	    disp_m / 1000,                     // 解析时间
-	    300*disp_d/disp_m,                 // 解析时间的变异系数
-	    save_disp_m / 1000,                // 保存时间
-	    300*save_disp_d/save_disp_m        // 保存时间的变异系数
+	    (1. * init_time) / 1000,           // 初始化时间 - 将微秒转换为毫秒的基本初始化时间
+	    init_dtime,                        // 额外初始化时间 - 与基本初始化时间的差值,单位为毫秒
+	    init_d,                            // 初始化时间的变异系数 - 衡量初始化时间波动程度的百分比
+	    disp_m / 1000,                     // 解析时间 - XML解析的平均时间,单位为毫秒
+	    300*disp_d/disp_m,                 // 解析时间的变异系数 - 衡量解析时间波动程度的百分比(标准差/平均值*300%)
+	    save_disp_m / 1000,                // 保存时间 - XML保存的平均时间,单位为毫秒
+	    300*save_disp_d/save_disp_m        // 保存时间的变异系数 - 衡量保存时间波动程度的百分比(标准差/平均值*300%)
 	);
     }
 
