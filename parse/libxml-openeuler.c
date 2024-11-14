@@ -21,6 +21,7 @@ static void libxml_free_doc(void* doc) {
 void initXML(struct TestData *td) {
     xmlInitParser();
     td->free_doc = libxml_free_doc;
+    td->is_sax_parser = 0;
 }
 
 void releaseXML(struct TestData *td) {

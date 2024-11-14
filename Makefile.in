@@ -57,7 +57,7 @@ XMLSEC1_INCLUDE = $(shell xmlsec1-config --cflags)
 XMLSEC1_LIB = $(shell xmlsec1-config --libs)
 endif
 
-EXPAT = no
+EXPAT = yes
 EXPAT_INCLUDE = 
 EXPAT_LIB = -lexpat
 

@@ -23,6 +23,7 @@ struct TestData {
     unsigned long xmllen;
 	void *parsed_doc;  // Store parsed document
 	doc_free_fn free_doc;  // 添加释放函数指针
+	int is_sax_parser;  // 添加标志来标识 SAX 解析器
 };
 
 char *ReadFile(char *fn) {
@@ -168,8 +169,10 @@ int Test(int argc, char *argv[]) {
     gettimeofday(&post_time,&tz);
     init_time2=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 
-	saveXML(&td,doc);
-	td.free_doc(doc);
+    if (!td.is_sax_parser) {  // 只有非 SAX 解析器才需要保存和释放文档
+        saveXML(&td,doc);
+        td.free_doc(doc);
+    }
  
     disp_init();
     for (i=1;i<=td.iterations;i++) {
@@ -196,14 +199,19 @@ int Test(int argc, char *argv[]) {
 	time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 	disp_event(time);
 
-	gettimeofday(&pre_time,&tz);
-	saveXML(&td,doc);
-	gettimeofday(&post_time,&tz);
-	save_time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
-	save_disp_event(save_time);
+	if (!td.is_sax_parser) {  // 只有非 SAX 解析器才需要测试保存文档
+	    gettimeofday(&pre_time,&tz);
+	    saveXML(&td,doc);
+	    gettimeofday(&post_time,&tz);
+	    save_time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
+	    save_disp_event(save_time);
+	}
     }
     disp_post();
-    td.free_doc(doc);
+    
+    if (!td.is_sax_parser) {  // 只有非 SAX 解析器才需要释放最后一个文档
+        td.free_doc(doc);
+    }
     releaseXML(&td);
     
     switch (mode) {
@@ -224,25 +232,38 @@ int Test(int argc, char *argv[]) {
 #endif /* GENERATOR_XMARK */
     }
 
-    if (mode==2) 
-	printf("Parsing Time %lf ms for %lu messages\n", ((double)disp_s) / 1000,td.iterations);
-    else {
-	if ((init_time2 - disp_m)<10) {
-	    init_d=0;
-	    init_dtime=0;
-	} else {
-	    init_d=300 * disp_d / fabs(init_time2 - disp_m);
-	    init_dtime=(init_time2 - disp_m)/1000;
-	}
-	printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms, Saving Time %.3lf(%.2lf%) ms\n",
-	    (1. * init_time) / 1000,           // 初始化时间 - 将微秒转换为毫秒的基本初始化时间
-	    init_dtime,                        // 额外初始化时间 - 与基本初始化时间的差值,单位为毫秒
-	    init_d,                            // 初始化时间的变异系数 - 衡量初始化时间波动程度的百分比
-	    disp_m / 1000,                     // 解析时间 - XML解析的平均时间,单位为毫秒
-	    300*disp_d/disp_m,                 // 解析时间的变异系数 - 衡量解析时间波动程度的百分比(标准差/平均值*300%)
-	    save_disp_m / 1000,                // 保存时间 - XML保存的平均时间,单位为毫秒
-	    300*save_disp_d/save_disp_m        // 保存时间的变异系数 - 衡量保存时间波动程度的百分比(标准差/平均值*300%)
-	);
+    if (mode==2) {
+        printf("Parsing Time %lf ms for %lu messages\n", ((double)disp_s) / 1000,td.iterations);
+    } else {
+        if ((init_time2 - disp_m)<10) {
+            init_d=0;
+            init_dtime=0;
+        } else {
+            init_d=300 * disp_d / fabs(init_time2 - disp_m);
+            init_dtime=(init_time2 - disp_m)/1000;
+        }
+        
+        if (td.is_sax_parser) {
+            // SAX 解析器只输出初始化和解析时间
+            printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms\n",
+                (1. * init_time) / 1000,
+                init_dtime,
+                init_d,
+                disp_m / 1000,
+                300*disp_d/disp_m
+            );
+        } else {
+            // DOM 解析器输出完整信息
+            printf("Initialisation time %.3lf + %.3lf(%.2lf%) ms, Parsing Time %.3lf(%.2lf%) ms, Saving Time %.3lf(%.2lf%) ms\n",
+                (1. * init_time) / 1000,           // 初始化时间 - 将微秒转换为毫秒的基本初始化时间
+				init_dtime,                        // 额外初始化时间 - 与基本初始化时间的差值,单位为毫秒
+				init_d,                            // 初始化时间的变异系数 - 衡量初始化时间波动程度的百分比
+				disp_m / 1000,                     // 解析时间 - XML解析的平均时间,单位为毫秒
+				300*disp_d/disp_m,                 // 解析时间的变异系数 - 衡量解析时间波动程度的百分比(标准差/平均值*300%)
+				save_disp_m / 1000,                // 保存时间 - XML保存的平均时间,单位为毫秒
+				300*save_disp_d/save_disp_m        // 保存时间的变异系数 - 衡量保存时间波动程度的百分比(标准差/平均值*300%)
+			);
+        }
     }
 
     return 0;

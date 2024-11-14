@@ -9,6 +9,7 @@ static void pugixml_free_doc(void* doc) {
 
 void initXML(struct TestData *td) {
     td->free_doc = pugixml_free_doc;  // 设置释放函数
+    td->is_sax_parser = 0;  // 设置为 DOM 解析器
 }
 
 void releaseXML(struct TestData *td) {
