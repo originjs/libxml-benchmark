@@ -1,7 +1,7 @@
 include ../Makefile.in
 
 ALLTARGETS = libxml libxml-sax libxml-push libxml-dom libxml-openeuler \
-	pugixml \
+	pugixml tinyxml2 \
 	expat expat-arabica-sax expat-arabica-dom \
 	expat-cslxml-sax expat-cslxml-dom expat-sablotron-dom \
 	xerces-sax xerces-dom xml4c-sax xml4c-dom \
@@ -73,6 +73,10 @@ TARGETS += oracle_dom2.class oracle_sax2.class
 endif
 ifeq ($(SUN), yes)
 TARGETS += sun_dom2.class sun_sax2.class 
+endif
+
+ifeq ($(TINYXML2), yes)
+TARGETS += tinyxml2
 endif
 
 HEADERS = tools.h ../tools/disp.h ../xmlgen/xmlgen.h ../xmlgen/opcgen.h ../xmlgen/random.h
@@ -188,7 +192,10 @@ expat-cslxml-dom: expat-cslxml-dom.cpp $(HEADERS)
 fp_dom.class: fp_dom.java $(CLASSES)
 	$(javac) -classpath $(FASTPARSER_CLASSPATH) $< 
 
-pugixml: pugixml.c $(HEADERS)
+pugixml: pugixml.cpp $(HEADERS)
 	$(gpp) $< -o pugixml $(PUGIXML_INCLUDE) $(PUGIXML_LIB) $(LIBS) $(FLAGS)
+
+tinyxml2: tinyxml2.cpp $(HEADERS)
+	$(gpp) $< -o tinyxml2 $(TINYXML2_INCLUDE) $(TINYXML2_LIB) $(LIBS) $(FLAGS)
 
 FLAGS += -g

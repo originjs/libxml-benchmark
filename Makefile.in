@@ -143,3 +143,7 @@ endif
 PUGIXML = yes
 PUGIXML_INCLUDE = -I/usr/local/opt/pugixml
 PUGIXML_LIB = -lpugixml
+
+TINYXML2 = yes
+TINYXML2_INCLUDE = -I/usr/local/opt/tinyxml2
+TINYXML2_LIB = -ltinyxml2
