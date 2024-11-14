@@ -173,7 +173,7 @@ int Test(int argc, char *argv[]) {
         saveXML(&td,doc);
         td.free_doc(doc);
     }
- 
+
     disp_init();
     for (i=1;i<=td.iterations;i++) {
 	switch (mode) {
@@ -205,13 +205,12 @@ int Test(int argc, char *argv[]) {
 	    gettimeofday(&post_time,&tz);
 	    save_time=(post_time.tv_sec-pre_time.tv_sec)*1000000+(post_time.tv_usec-pre_time.tv_usec);
 	    save_disp_event(save_time);
+
+		td.free_doc(doc);
 	}
     }
     disp_post();
     
-    if (!td.is_sax_parser) {  // 只有非 SAX 解析器才需要释放最后一个文档
-        td.free_doc(doc);
-    }
     releaseXML(&td);
     
     switch (mode) {

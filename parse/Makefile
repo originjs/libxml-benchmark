@@ -46,7 +46,7 @@ endif
 endif
 
 ifeq ($(XERCESC), yes)
-TARGETS += xerces-sax xerces-dom 
+TARGETS += xerces-dom 
 endif
 ifeq ($(XML4C), yes)
 TARGETS += xml4c-sax xml4c-dom

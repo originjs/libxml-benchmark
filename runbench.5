@@ -29,11 +29,11 @@ bench() {
 echo "******************** Parsing Benchmarks ********************"
 echo
 cd parse
-for name in "pugixml" "libxml" "expat" "libxmlopeneuler" "tinyxml2"; do
+for name in "pugixml" "libxml" "libxmlopeneuler" "expat" "tinyxml2" "xerces-dom"; do
 	if ([ -x $name ] && [ -f $name ]); then
 		echo "------------------>Running benchmarks <$name>:"
 		echo "-> dmoz rdf file ( 12 MB )"
-		./$name $(expr $time "*" 3) ../xml.files/test.rdf &
+		./$name $(expr $time "*" 10) ../xml.files/test.rdf &
 		bench $name
 	fi
 done
