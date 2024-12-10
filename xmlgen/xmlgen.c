@@ -8,7 +8,7 @@
     xmlgen [<size>] [<iterations>]
 */
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     unsigned long size=0;
     unsigned long i,iters=0;
     FILE *f;
@@ -24,7 +24,7 @@ main(int argc, char *argv[]) {
     xmlgen();
     if (!iters) puts(s);
     else {
-    	for (i=0;i<=iters;i++) {
+    	for (i=1;i<=iters;i++) {
 	    sprintf(fn,"../xml.tmp/%u.xml",i);
 	    f=fopen(fn,"w");
 	    fputs(s,f);

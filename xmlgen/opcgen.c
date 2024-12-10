@@ -7,7 +7,7 @@
     opcgen [<number of repeatable elements>]
 */
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     unsigned long rpt=0;
     unsigned long i,iters=0;
     FILE *f;

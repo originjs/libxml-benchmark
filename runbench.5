@@ -31,9 +31,8 @@ echo
 cd parse
 for name in "pugixml" "libxml" "libxmlopeneuler" "expat" "tinyxml2" "xerces-dom"; do
 	if ([ -x $name ] && [ -f $name ]); then
-		echo "------------------>Running benchmarks <$name>:"
-		echo "-> dmoz rdf file ( 12 MB )"
-		./$name $(expr $time "*" 10) ../xml.files/test.rdf &
+		echo "------------------>Running benchmarks <$name> <1kb.xml>:"
+		./$name $(expr $time "*" 10) ../xml.files/1kb.xml &
 		bench $name
 	fi
 done

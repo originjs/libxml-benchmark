@@ -8,7 +8,7 @@
     xmark [<size>] [<iterations>]
 */
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     unsigned long size=1;
     unsigned long i,iters=0;
     FILE *f;
